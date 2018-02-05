@@ -7,7 +7,7 @@
 ;; Keywords: faces
 ;; URL: https://github.com/ubolonton/info-colors
 ;; Package-Requires: ((emacs "24"))
-;; Package-Version: 0.1
+;; Package-Version: 0.2
 ;; Package-X-Original-Version: 0
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -25,9 +25,8 @@
 
 ;;; Commentary:
 
-;; This is adapted from the extra font lock rules provided by Drew
-;; Adams' `info+' package, but published via a modern means, and with
-;; support for older Emacsen removed.
+;; This is a modern adaption of the extra font lock rules provided by Drew
+;; Adams' `info+' package.
 
 ;; To enable this:
 
@@ -95,6 +94,25 @@
   "Face for the remaining parts of reference items in `info' nodes."
   :group 'info-colors)
 
+(defface info-colors-lisp-code-block
+  '((t (:inherit fixed-pitch)))
+  "Face for Lisp code blocks in `info' nodes."
+  :group 'info-colors)
+
+;;; TODO: Don't fontify indents.
+;;; TODO: Fontify as Lisp code.
+;;;###autoload
+(defun info-colors/fontify-lisp-code-blocks ()
+  "Fontify Lisp code blocks in an `info' node."
+  (goto-char (point-min))
+  (while (re-search-forward
+          "^ \\{5,\\}(.*\
+\\(\n \\{5\\}.*\\)*\
+\\()\\|\n\\)$"
+          nil t)
+    (put-text-property (match-beginning 0) (match-end 0)
+                       'font-lock-face 'info-colors-lisp-code-block)))
+
 ;;; TODO: Use syntax table or something?
 ;;;###autoload
 (defun info-colors/fontify-reference-items ()
@@ -130,6 +148,7 @@
   (save-excursion
     (let* ((inhibit-read-only t)
            (case-fold-search t))
+      (info-colors/fontify-lisp-code-blocks)
       (info-colors/fontify-reference-items)
       (set-buffer-modified-p nil))))
 
