@@ -1,4 +1,4 @@
-;;; info-colors.el --- Extra font lock rules for Info-mode  -*- lexical-binding: t; -*-
+;;; info-colors.el --- Extra colors for Info-mode  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2018  Tuấn-Anh Nguyễn
 
@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; This is a modern adaption of the extra font lock rules provided by Drew
+;; This is a modern adaption of the extra coloring provided by Drew
 ;; Adams' `info+' package.
 
 ;; To enable this:
