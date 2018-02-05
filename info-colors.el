@@ -6,7 +6,7 @@
 ;; Author: Drew Adams
 ;; Keywords: faces
 ;; URL: https://github.com/ubolonton/info-colors
-;; Package-Requires: ((emacs "24"))
+;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Package-Version: 0.2
 ;; Package-X-Original-Version: 0
 
@@ -35,9 +35,8 @@
 ;;; Code:
 
 (require 'info)
+(require 'cl-lib)
 
-(eval-when-compile
-  (require 'cl))
 
 ;;;###autoload
 (defgroup info-colors nil
@@ -129,7 +128,7 @@
                          'font-lock-face 'info-colors-ref-item-type)
       (put-text-property
        (match-beginning 2) (match-end 2)
-       'font-lock-face (case sym
+       'font-lock-face (cl-case sym
                          ('Constant      'info-colors-ref-item-constant)
                          ('Variable      'info-colors-ref-item-variable)
                          ('User\ Option  'info-colors-ref-item-user-option)
