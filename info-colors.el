@@ -101,8 +101,10 @@
   "Fontify reference items in an `info' node."
   (goto-char (point-min))
   (while (re-search-forward
-          "^ --? \\(Command\\|Constant\\|Function\\|Macro\\|Special Form\\|\
-Syntax class\\|User Option\\|Variable\\):\\( *.+?[ \n]\\)\\(.*\\)\\([\n]          \\(.*\\)\\)*"
+          "^ --? \
+\\(Command\\|Constant\\|Function\\|Macro\\|Special Form\\|Syntax class\\|User Option\\|Variable\\):\
+ *\\(\\S-+\\)\
+\\(\\( .*\\)?\\([\n] \\{8\\}.*\\)*\\)"
           nil t)
     (let ((sym (intern (match-string 1))))
       (put-text-property (match-beginning 1) (match-end 1)
@@ -118,11 +120,8 @@ Syntax class\\|User Option\\|Variable\\):\\( *.+?[ \n]\\)\\(.*\\)\\([\n]        
                          ('Function      'info-colors-ref-item-function)
                          ('Command       'info-colors-ref-item-command)
                          ('Syntax\ class 'info-colors-ref-item-syntax-class)))
-      (put-text-property
-       (match-beginning 3) (match-end 3)
-       'font-lock-face 'info-colors-ref-item-other)
-      (when (match-beginning 4)
-        (put-text-property (match-beginning 4) (match-end 4)
+      (when (match-beginning 3)
+        (put-text-property (match-beginning 3) (match-end 3)
                            'font-lock-face 'info-colors-ref-item-other)))))
 
 ;;;###autoload
