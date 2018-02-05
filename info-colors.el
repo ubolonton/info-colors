@@ -30,7 +30,7 @@
 
 ;; To enable this:
 
-;;     (add-hook 'Info-selection-hook 'info-colors/fontify-node)
+;;     (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
 ;;; Code:
 
@@ -102,7 +102,7 @@
 ;;; TODO: Don't fontify indents.
 ;;; TODO: Fontify as Lisp code.
 ;;;###autoload
-(defun info-colors/fontify-lisp-code-blocks ()
+(defun info-colors-fontify-lisp-code-blocks ()
   "Fontify Lisp code blocks in an `info' node."
   (goto-char (point-min))
   (while (re-search-forward
@@ -115,7 +115,7 @@
 
 ;;; TODO: Use syntax table or something?
 ;;;###autoload
-(defun info-colors/fontify-reference-items ()
+(defun info-colors-fontify-reference-items ()
   "Fontify reference items in an `info' node."
   (goto-char (point-min))
   (while (re-search-forward
@@ -143,13 +143,13 @@
                            'font-lock-face 'info-colors-ref-item-other)))))
 
 ;;;###autoload
-(defun info-colors/fontify-node ()
+(defun info-colors-fontify-node ()
   "Fontify an `info' node."
   (save-excursion
     (let* ((inhibit-read-only t)
            (case-fold-search t))
-      (info-colors/fontify-lisp-code-blocks)
-      (info-colors/fontify-reference-items)
+      (info-colors-fontify-lisp-code-blocks)
+      (info-colors-fontify-reference-items)
       (set-buffer-modified-p nil))))
 
 (provide 'info-colors)

@@ -7,7 +7,7 @@ This is a modern adaption of the extra coloring provided by Drew Adams' `info+` 
 Install and enable this with
 
 ```emacs-lisp
-(add-hook 'Info-selection-hook 'info-colors/fontify-node)
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
 ```
 
 ![Differences](differences.png)
