@@ -104,13 +104,27 @@
 (defun info-colors-fontify-lisp-code-blocks ()
   "Fontify Lisp code blocks in an `info' node."
   (goto-char (point-min))
+  ;; @nerton: Find code blocks by looking for two newlines followed by at least 5 spaces and
+  ;; check if the line before the two newlines (the previous paragraph) has a 5 space less indent
+  ;; than the found line. See https://github.com/ubolonton/info-colors/issues/2
   (while (re-search-forward
-          "^ \\{5,\\}(.*\
-\\(\n \\{5\\}.*\\)*\
-\\()\\|\n\\)$"
+          "\\(.+\\)\n\n\\( \\{5,\\}\\)"
           nil t)
-    (put-text-property (match-beginning 0) (match-end 0)
-                       'font-lock-face 'info-colors-lisp-code-block)))
+    (let* ((prevline (match-string 1))
+           (start (match-beginning 2))
+           (indent (length (match-string 2)))
+           (previndent (if (string-match "^ +" prevline)
+                           (length (match-string 0 prevline))
+                         0)))
+      (if (< (- indent previndent) 5)
+          (beginning-of-line)
+        (while (progn
+                 (re-search-forward "\n\n")
+                 (and (not (eobp))
+                      (looking-at " *")
+                      (= (length (match-string 0)) indent))))
+        (put-text-property (1- start) (point)
+                           'font-lock-face 'info-colors-lisp-code-block)))))
 
 ;;; TODO: Use syntax table or something?
 ;;;###autoload
