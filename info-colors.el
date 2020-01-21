@@ -7,7 +7,7 @@
 ;; Keywords: faces
 ;; URL: https://github.com/ubolonton/info-colors
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
-;; Package-Version: 0.2
+;; Package-Version: 0.2.1
 ;; Package-X-Original-Version: 0
 
 ;; This program is free software; you can redistribute it and/or modify
