@@ -7,7 +7,7 @@
 ;; Keywords: faces
 ;; URL: https://github.com/ubolonton/info-colors
 ;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
-;; Package-Version: 0.2.1
+;; Package-Version: 0.2.2
 ;; Package-X-Original-Version: 0
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -110,14 +110,19 @@
   (while (re-search-forward
           "\\(.+\\)\n\n\\( \\{5,\\}\\)"
           nil t)
-    (let* ((prevline (match-string 1))
+    (let* ((prev-line (match-string 1))
            (start (match-beginning 2))
            (indent (length (match-string 2)))
-           (previndent (if (string-match "^ +" prevline)
-                           (length (match-string 0 prevline))
-                         0)))
-      (if (< (- indent previndent) 5)
+           (prev-indent (if (string-match "^ +" prev-line)
+                            (length (match-string 0 prev-line))
+                          0))
+           ;; Example: ‘C-x l’     (‘transient-set-level’)
+           (prev-is-kb-desc? (string-prefix-p "‘" prev-line))
+           (small-indent-change? (< (- indent prev-indent) 5)))
+      (if (or prev-is-kb-desc? small-indent-change?)
+          ;; Not the begin of a code block. Continue.
           (beginning-of-line)
+        ;; Look for the end of the code block.
         (while (progn
                  (re-search-forward "\n\n")
                  (and (not (eobp))
